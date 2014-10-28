@@ -1,10 +1,5 @@
-get '/posts' do
-  @posts_list = Post.all
-  @posts_list_desc = Post.order( "created_at DESC" ).limit(10)
-  erb :index
-end
-
 get '/posts/:id' do
+  @tags_list = Tag.all
   @post= Post.find(params[:id])
   @posts_list_desc = Post.order( "created_at DESC" ).limit(10)
   erb :'post/post'
@@ -21,19 +16,25 @@ post '/posts/:id' do
 end
 
 get '/new_post' do
-  erb :newpost
+  erb :'post/newpost'
 end
 
 post '/new_post' do
   @post = Post.create(title: params[:title], content: params[:content], author: params[:author])
-  temp_tag = params[:tags]
-  Tag.create(tag_name: params[:tags])
+  temp_tag = params[:tags].split(",")
+  temp_tag.each do |tag|
+    unless Tag.exists?(tag_name: tag)
+      Tag.create(tag_name: tag)
+    end
+    @tag = Tag.where(tag_name: tag).first
+    @post.tags << @tag
+  end
 #   PostTag.create(  )
   if !@post.new_record? #Returns true if this object hasn’t been saved yet
      redirect "/"
   else
      @error_msg = @post.errors.full_messages
-     erb :newpost
+     erb :'post/newpost'
   end
 end
 
@@ -45,4 +46,9 @@ get '/posts/:id/edit' do
     @error_msg = @post.errors.full_messages
     erb :invalid
   end
+end
+
+delete '/posts/:id/edit' do
+  Post.find(params[:id]).destroy
+  redirect "/"
 end

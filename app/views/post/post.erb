@@ -5,21 +5,38 @@
         <div class = "post_title"> <p><a href= '<%= "/posts/#{@post.id}" %>'> <%= @post.title %> </a> </p> </div>
         <div class = "post_content"> <p><%= @post.content %> </p> </div>
         <div class = "post_author"> <p> Author: <%= @post.author %> </p> </div>
-        <div class ="post_tag"> <p>Tag:</p></div>
-        <form action= "/posts/<%= @post.id %>/edit">
-          <input type="hidden" name="_method" value="edit"> 
-          <button value="submit">Edit</button>
-        </form
-      </div>
-    </div>
-
-    <div class="right-content">
-      <div class="right-content">
-       <h3>Latest Blog Post:</h3>
-        <ul>
-          <% @posts_list_desc.each do |epost| %>
-          <li> <a href= '<%= "/posts/#{epost.id}" %>' > <%= "#{epost.title}"%>  </a> </li>
-          <% end %>
-        </ul>
-    </div>
-    </div>
+        <div class ="post_tag"> <p>Tag:
+           <% if !@post.tags.nil? %>
+            <% @post.tags.each do |tag| %> 
+              <a href= '<%= "/tags/#{tag.id}" %>'><%= tag.tag_name %>
+            ,<% end %></p>
+        <% end %>
+        </div>
+        <div class="button-container">
+          <a href= '<%= "/posts/#{@post.id}/edit" %>'> 
+            <button value="submit">Edit</button></a>
+          <form action= "/posts/<%= @post.id %>/edit" method ="post">
+            <input type="hidden" name="_method" value="delete"> 
+            <button value="submit">Delete</button>
+          </form>
+       </div>
+     </div>
+   </div>
+  <div class="right-content">
+    <h3>Latest Blog Post:</h3>
+    <ul>
+      <% @posts_list_desc.each do |epost| %>
+      <li> <a href= '<%= "/posts/#{epost.id}" %>'> <%= "#{epost.title}"%>  </a> </li>
+      <% end %>
+    </ul>
+      <br>
+      <br>
+      <h3>Tags:</h3>
+    <ul>
+      <% @tags_list.each do |tag| %>
+      <li> <a href= '<%= "/tags/#{tag.id}" %>'>
+        <%= tag.tag_name %> </a>
+      <% end %></li>
+    </ul>
+  </div>
+</div>
