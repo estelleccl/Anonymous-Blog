@@ -1,0 +1,25 @@
+<div class="container">
+  <h1>Welcome to Chang Blog!</h1>
+    <div class= "content">
+      <div class="single_post">
+        <div class = "post_title"> <p><a href= '<%= "/posts/#{@post.id}" %>'> <%= @post.title %> </a> </p> </div>
+        <div class = "post_content"> <p><%= @post.content %> </p> </div>
+        <div class = "post_author"> <p> Author: <%= @post.author %> </p> </div>
+        <div class ="post_tag"> <p>Tag:</p></div>
+        <form action= "/posts/<%= @post.id %>/edit">
+          <input type="hidden" name="_method" value="edit"> 
+          <button value="submit">Edit</button>
+        </form
+      </div>
+    </div>
+
+    <div class="right-content">
+      <div class="right-content">
+       <h3>Latest Blog Post:</h3>
+        <ul>
+          <% @posts_list_desc.each do |epost| %>
+          <li> <a href= '<%= "/posts/#{epost.id}" %>' > <%= "#{epost.title}"%>  </a> </li>
+          <% end %>
+        </ul>
+    </div>
+    </div>
