@@ -1,0 +1,15 @@
+<div class="container">
+  <h1>Welcome to Chang's Blog!</h1>
+  <p>Hello, world!</p>
+  <table style="width:100%">
+    <% @posts_list.each do |post| %>
+    <tr>
+      <p><%= post.author %> </p>
+      <p><%= post.title %> </p>
+      <p><%= post.content %> </p>
+    </tr> <hr>
+    <% end %>
+
+  </table>
+ 
+</div>
